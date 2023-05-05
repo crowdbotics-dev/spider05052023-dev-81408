@@ -1,364 +1,270 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
-  StyleSheet, Image, TextInput, ScrollView
+  StyleSheet,
+  Image,
+  Pressable,
+  ScrollView
 } from "react-native";
 
-const TransactionsFilterList = () => {
+const TransactionDetails = () => {
+  const [user, setUser] = useState([]);
+  const [transaction, setTransaction] = useState([]);
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    setUser({
+      name: "Username",
+      email: "username@email.com",
+      image: require("./assets/userImage.png")
+    });
+    setTransaction({
+      name: "User name",
+      amount: 1285,
+      transactionID: "0xdC4592CFBa591e4E243fA35e2e4eEeBd4e4eEeBd",
+      date: "2021-01-01",
+      currency: "USD",
+      time: "16:00:00"
+    });
+  }, []);
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.headerContainer}>
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Image source={require("./assets/back.png")} style={styles.back} />
-          <Text style={styles.heading}>Transaction</Text>
-          <Text />
-        </View>
-        <View style={styles.statusContainer}>
-          <View style={styles.imgContainer2}>
-            <Image source={require(
-              // @ts-ignore
-              "./assets/edit.png")} style={styles.editImg} />
-          </View>
-          <View style={styles.description}>
-            <Text style={styles.username}>$1244.84</Text>
-            <Text style={styles.text}>Balance</Text>
-          </View>
-        </View>
-      </View>
-      <Text style={styles.mrSearch}>Search</Text>
-      <View style={styles.searchContainer}>
-        <View style={styles.chooseContainer}>
-          <TextInput placeholder="Enter" placeholderTextColor="#000" />
-          <Image source={require(
-            // @ts-ignore
-            "./assets/search.png")} style={styles.search} />
-        </View>
-        <Image source={require(
-          // @ts-ignore
-          "./assets/file.png")} style={styles.file} />
-      </View>
-
-      <View style={styles.dateContainer}>
-      <Image source={require(
-        // @ts-ignore
-        "./assets/cross.png")} style={styles.cross} />
-        <View style={styles.feeContainer}>
+          <Image source={user.image} style={styles.image} />
           <View>
-            <Text style={[styles.mr10]}>Start date</Text>
-            <View style={styles.feeSection}>
-              <TextInput placeholder="Enter" placeholderTextColor="#000"/>
-              <Image source={require(
-                // @ts-ignore
-                "./assets/calender.png")} style={styles.calender} />
-            </View>
-          </View>
-          <View>
-            <Text style={[styles.mr10]}>End date</Text>
-            <View style={styles.feeSection}>
-            <TextInput placeholder="Enter" placeholderTextColor="#000"/>
-              <Image source={require(
-                // @ts-ignore
-                "./assets/calender.png")} style={styles.calender} />
-            </View>
+            <Text style={styles.name}>{user.name}</Text>
+            <Text style={styles.email}>{user.email}</Text>
           </View>
         </View>
-        <Text style={styles.mr10}>Transactions</Text>
-        <View style={[styles.chooseContainer, styles.searchTo]}>
-          <Text>All</Text>
-          <Image source={require(
-            // @ts-ignore
-            "./assets/down.png")} style={styles.down} />
+        <Text style={styles.itemHeading}>Transaction Details</Text>
+        <View style={styles.itemContainer}>
+          <View style={styles.flexRow}>
+            <Text style={styles.subText}>Sender/ Reciever</Text>
+            <Text style={styles.mainText}>{transaction.name}</Text>
+          </View>
+          <View style={styles.flexRow}>
+            <Text style={styles.subText}>Sender/ Reciever</Text>
+            <Text style={styles.mainText}>
+              {format(transaction.amount, transaction.currency, 2)}
+            </Text>
+          </View>
         </View>
-      </View>
-
-      <View style={styles.tabView}>
-        <View style={[styles.tabItem, styles.selectedTab]}>
-          <Text style={styles.tabText}>Loads</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <Text style={[styles.tabText]}>Cash out</Text>
-        </View>
-      </View>
-      <Text style={styles.subHeading}>Transactions</Text>
-      <View style={styles.walletCard}>
-        <View style={styles.walletInner}>
-          <View style={[styles.imgContainer]}>
-            <Image
-              source={require("./assets/edit.png")}
-              style={styles.image}
+        <Text style={styles.itemHeading}>Transaction ID</Text>
+        <View style={styles.itemContainer}>
+          <View style={styles.flexRow}>
+            <Text style={styles.subText} numberOfLines={1}>
+              {transaction.transactionID}
+            </Text>
+            <Checkbox
+              value={checked}
+              setValue={setChecked}
+              style={styles.checkbox}
             />
           </View>
-          <View style={styles.walletCarder}>
-            <Text style={styles.eventName}>Sender name</Text>
-            <Text style={styles.eventType}>07/06/2022</Text>
+        </View>
+        <Text style={styles.itemHeading}>Date</Text>
+        <View style={styles.itemContainer}>
+          <View style={styles.flexRow}>
+            <Text style={styles.subText} numberOfLines={1}>
+              {transaction.date}
+            </Text>
           </View>
         </View>
-        <View style={styles.leftSection}>
-          <Text style={styles.view}>11:30 am</Text>
-          <Text style={styles.reject}>1.254.21$</Text>
-        </View>
-      </View>
-
-      <View style={styles.walletCard}>
-        <View style={styles.walletInner}>
-          <View style={[styles.imgContainer]}>
-            <Image
-              source={require("./assets/edit.png")}
-              style={styles.image}
-            />
-          </View>
-
-          <View style={styles.walletCarder}>
-            <Text style={styles.eventName}>Sender name</Text>
-            <Text style={styles.eventType}>07/06/2022</Text>
+        <Text style={styles.itemHeading}>Time</Text>
+        <View style={styles.itemContainer}>
+          <View style={styles.flexRow}>
+            <Text style={styles.subText} numberOfLines={1}>
+              {transaction.time}
+            </Text>
           </View>
         </View>
-        <View style={styles.leftSection}>
-          <Text style={styles.view}>11:30 am</Text>
-          <Text style={styles.reject}>1.254.21$</Text>
-        </View>
-      </View>
-      <View style={styles.walletCard}>
-        <View style={styles.walletInner}>
-          <View style={[styles.imgContainer]}>
-            <Image
-              source={require("./assets/edit.png")}
-              style={styles.image}
-            />
-          </View>
-
-          <View style={styles.walletCarder}>
-            <Text style={styles.eventName}>Sender name</Text>
-            <Text style={styles.eventType}>07/06/2022</Text>
-          </View>
-        </View>
-        <View style={styles.leftSection}>
-          <Text style={styles.view}>11:30 am</Text>
-          <Text style={styles.reject}>1.254.21$</Text>
-        </View>
-      </View>
-      <View style={styles.walletCard}>
-        <View style={styles.walletInner}>
-          <View style={[styles.imgContainer]}>
-            <Image
-              source={require("./assets/edit.png")}
-              style={styles.image}
-            />
-          </View>
-
-          <View style={styles.walletCarder}>
-            <Text style={styles.eventName}>Sender name</Text>
-            <Text style={styles.eventType}>07/06/2022</Text>
-          </View>
-        </View>
-        <View style={styles.leftSection}>
-          <Text style={styles.view}>11:30 am</Text>
-          <Text style={styles.reject}>1.254.21$</Text>
-        </View>
-      </View>
-    </ScrollView>
+        <Button buttonText="Close" style={styles.button} />
+      </ScrollView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
-    paddingBottom: 20
+    backgroundColor: "#f2f2f2"
   },
-  headerContainer: { backgroundColor: "#F1F1F1", paddingHorizontal: 10, paddingBottom: 50, marginBottom: 20 },
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginHorizontal: 30,
-    marginTop: 15,
-    marginBottom: 20
+    padding: 20
   },
-  back: { width: 11.25, height: 20, resizeMode: "contain", marginLeft: -15 },
-  heading: { fontSize: 16, color: "#000" },
-  description: { marginTop: 10, marginRight: 10 },
-  username: { fontSize: 20, fontWeight: "bold" },
-  text: { color: "#9A9A9A", marginTop: 5, marginLeft: 35 },
-  statusContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginVertical: 10
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginRight: 10
   },
-  imgContainer2: {
-    height: 61,
-    width: 61,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DADADA",
-    borderRadius: 60,
-    marginLeft: 20
+  name: {
+    fontSize: 20,
+    fontWeight: "bold"
   },
-  editImg: { resizeMode: "contain", height: 32, width: 32 },
-  tabView: {
-    width: "65%",
-    height: 48,
-    backgroundColor: "#F1F1F1",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    borderRadius: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 6,
-    marginVertical: 30,
-    marginLeft: 10
-  },
-  tabItem: {
-    height: "100%",
-    paddingHorizontal: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F1F1F1",
-    borderRadius: 10,
-    fontWeight: "bold",
-    flex: 1
-  },
-  selectedTab: {
-    backgroundColor: "#FFF",
-    shadowColor: "gray",
-    elevation: 10
-  },
-  tabText: { fontSize: 12 },
-  subHeading: { fontSize: 16, marginLeft: 13, marginVertical: 10 },
-  walletCard: {
-    backgroundColor: "#fff",
-    marginHorizontal: 10,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottomColor: "#F2F2F2",
-    borderBottomWidth: 1,
-    paddingVertical: 10
-  },
-  walletInner: {
-    display: "flex",
-    flexDirection: "row"
-  },
-  walletCarder: {
-    alignSelf: "center",
-    display: "flex",
-    flexDirection: "column"
-  },
-  eventName: {
+  email: {
     fontSize: 14,
-    marginLeft: 10,
-    width: 115
+    color: "#666"
   },
-  eventType: {
-    color: "#ADB1B2",
-    fontSize: 12,
-    marginLeft: 10,
-    width: 115,
-    marginVertical: 5
+  itemHeading: {
+    fontSize: 14,
+    color: "#7C7C7C",
+    marginLeft: 20,
+    textTransform: "uppercase"
   },
-  view: {
-    fontSize: 12,
-    color: "#ADB1B2",
-    paddingBottom: 3,
-    marginRight: -25
-  },
-  reject: {
-    fontSize: 18,
-    paddingHorizontal: 10
-  },
-  imgContainer: {
-    height: 46,
-    width: 46,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#dadada",
-    borderRadius: 10
-  },
-  image: { resizeMode: "contain", height: 24, width: 24 },
-  leftSection: { justifyContent: "center", alignItems: "center" },
-  mr10: {
-    marginLeft: 15,
-    marginBottom: 10
-  },
-  mrSearch: {
-    marginLeft: 35,
-    marginBottom: 10
-  },
-  chooseContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 55,
-    borderColor: "#C4C4C4",
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 15,
-    paddingRight: 20,
-    marginBottom: 10,
-    width: "83%"
-  },
-  searchTo: { width: "100%" },
-  amount: { fontSize: 20, fontWeight: "bold" },
-  search: {
-    width: 20,
-    height: 24,
-    resizeMode: "contain"
-  },
-  down: {
-    width: 12,
-    height: 17,
-    resizeMode: "contain"
-  },
-  searchContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20
-  },
-  file: {
-    width: 24,
-    height: 24,
-    resizeMode: "contain",
-    marginTop: -10
-  },
-  calender: {
-    width: 24,
-    height: 24,
-    resizeMode: "contain"
-  },
-  dateContainer: {
-    elevation: 5,
-    shadowColor: "#ccc9c9",
+  itemContainer: {
     backgroundColor: "#fff",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    display: "flex",
-    borderRadius: 8,
-    marginHorizontal: 10,
-    marginTop: 10
+    marginVertical: 10
   },
-  feeContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 },
-  cross: {
-    width: 16,
-    height: 16,
-    resizeMode: "contain",
-    alignSelf: "flex-end",
-    marginBottom: -15
-  },
-  feeSection: {
+  flexRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: 55,
-    borderColor: "#C4C4C4",
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    paddingRight: 20,
-    width: 150
+    borderBottomColor: "#f2f2f2",
+    borderBottomWidth: 1,
+    padding: 10
+  },
+  subText: {
+    fontSize: 16,
+    color: "#231F20",
+    width: "80%"
+  },
+  mainText: {
+    fontSize: 16,
+    color: "#000",
+    fontWeight: "bold"
+  },
+  checkbox: {
+    marginRight: 10
+  },
+  button: {
+    marginHorizontal: 40,
+    marginVertical: 20
   }
 });
 
-export default TransactionsFilterList;
+export default TransactionDetails;
+
+const format = (value, currency, precesion) => {
+  const parts = value && value.toFixed(precesion).toString().split(".");
+  if (parts) {
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    switch (currency) {
+      case "USD":
+        return "$ " + parts.join(".");
+      case "BTC":
+        return parts.join(".") + " BTC";
+      case "EUR":
+        return "€ " + parts.join(".");
+      case "GBP":
+        return "£ " + parts.join(".");
+      case "ETH":
+        return parts.join(".") + " ETH";
+      default:
+        return parts.join(".");
+    }
+  }
+};
+
+const Checkbox = props => {
+  return (
+    <Pressable
+      onPress={() => {
+        props.setValue(!props.value);
+      }}
+      style={[checkboxStyles.container, props.style]}>
+      <Image
+        source={
+          props.value
+            ? require("./assets/checkboxIconActive.png")
+            : require("./assets/checkboxIcon.png")
+        }
+        style={[
+          checkboxStyles.checkbox,
+          props.color && { tintColor: props.color },
+          props.activeColor && props.value && { tintColor: props.activeColor }
+        ]}
+      />
+    </Pressable>
+  );
+};
+
+const checkboxStyles = StyleSheet.create({
+  container: {
+    height: 20,
+    width: 20
+  },
+  checkbox: {
+    height: "100%",
+    width: "100%",
+    tintColor: "#000"
+  }
+});
+
+const Button = params => {
+  const backgroundColor = params.backgroundColor || "#000";
+  const textColor = params.textColor || "#fff";
+  const btnStyle = {
+    backgroundColor: backgroundColor,
+    borderColor: params.borderColor || backgroundColor,
+    borderWidth: 1
+  };
+  const btnText = {
+    color: textColor
+  };
+  return (
+    <View style={[buttonStyles.btnContainer, params.style]}>
+      <View style={!params.hideShadow ? buttonStyles.shadowContainer : null}>
+        <Pressable
+          style={[buttonStyles.btn, btnStyle]}
+          onPress={params.onPress}>
+          <Text style={[buttonStyles.btnText, btnText]}>
+            {params.buttonText}
+          </Text>
+          <View style={styles.childrenContainer}>{params.children}</View>
+        </Pressable>
+      </View>
+    </View>
+  );
+};
+
+const buttonStyles = StyleSheet.create({
+  btnContainer: {
+    justifyContent: "center"
+  },
+  shadowContainer: {
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+    shadowOffset: {
+      width: 0,
+      height: 5
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 10,
+    backgroundColor: "#fff",
+    borderRadius: 10
+  },
+  btn: {
+    height: 50,
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+
+    flexDirection: "row"
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  childrenContainer: {
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});
