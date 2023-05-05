@@ -1,5 +1,5 @@
 {
-    "name": "@screens/transaction-successful",
+    "name": "@screens/transaction-pending",
     "version": "1.0.0",
     "description": "",
     "private": true,

@@ -5,7 +5,7 @@ import {
   StyleSheet, Image, TouchableHighlight
 } from "react-native";
 
-const TransactionSuccessful = () => {
+const TransactionPending = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -14,13 +14,25 @@ const TransactionSuccessful = () => {
         <Text style={styles.heading}>Transaction</Text>
         <Text />
       </View>
+      <View style={styles.statusContainer}>
         <View style={styles.description}>
-          <Text style={styles.username}>Transaction Done!</Text>
+          <Text style={styles.username}>Transaction pending</Text>
+          <Text style={styles.text}>See details</Text>
+        </View>
+        <Image source={require("./assets/clock.png")} style={styles.clock} />
+      </View>
+      </View>
+      <View style={[styles.description, styles.align]}>
+          <Text style={[styles.mb5]}>Transaction ID</Text>
           <Text style={styles.text}>Lorem ipsum dolor sit amet,</Text>
           <Text style={styles.text}>consectetur adipiscing elit. Hac. </Text>
         </View>
+
+        <Text style={styles.mr10}>Transaction ID</Text>
+      <View style={styles.chooseContainer}>
+        <Text style={styles.address}>0xdC4592CFBa591e4E243fA35e2e4…</Text>
+        <Image source={require("./assets/copy.png")} style={styles.nextImg} />
       </View>
-      <Image source={require("./assets/done.png")} style={styles.touch} />
       <View style={styles.buttonContainer}>
         <Button>Done</Button>
       </View>
@@ -33,7 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     paddingBottom: 20
   },
-  headerContainer: { backgroundColor: "#F1F1F1", paddingHorizontal: 10, paddingBottom: 15 },
+  headerContainer: { backgroundColor: "#F1F1F1", paddingHorizontal: 10, paddingBottom: 25 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -47,6 +59,33 @@ const styles = StyleSheet.create({
   description: { paddingHorizontal: 15, marginTop: 20 },
   username: { fontSize: 22, fontWeight: "bold", color: "#2A2B2E" },
   text: { color: "#9A9A9A", paddingRight: 70, marginTop: 5 },
+  align: { marginHorizontal: 10, marginBottom: 30 },
+  mb5: { fontSize: 22, fontWeight: "bold", marginBottom: 5, color: "#333333" },
+  statusContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 20
+  },
+  clock: { width: 66, height: 66, resizeMode: "contain", marginRight: 20 },
+  mr10: {
+    marginLeft: 35,
+    marginBottom: 10
+  },
+  chooseContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 55,
+    borderColor: "#C4C4C4",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 10,
+    paddingRight: 20,
+    marginHorizontal: 20,
+    marginBottom: 20
+  },
+  nextImg: { width: 16, height: 16, resizeMode: "contain" },
   buttonContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -55,8 +94,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     width: "100%"
   },
-  touch: { width: 180, height: 180, resizeMode: "contain", alignSelf: "center", marginTop: 90, marginBottom: 10 }
-
+  address: { color: "#2B2727" }
 });
 
 const Button = (props) => {
@@ -101,4 +139,5 @@ const btnStyles = StyleSheet.create({
     fontSize: 15
   }
 });
-export default TransactionSuccessful;
+
+export default TransactionPending;
