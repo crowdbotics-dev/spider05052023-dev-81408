@@ -1,151 +1,135 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Text,
-  StyleSheet,
   View,
-  TextInput,
+  StyleSheet,
   Image,
-  ScrollView
+  ImageBackground,
+  Pressable
 } from "react-native";
 
-const InviteFriendsScreen = params => {
-  const [value, setValue] = useState("");
+const InAppTutorial = () => {
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.searchBar}>
-          <Text style={styles.searchText}>Search</Text>
-          <View
-            style={{
-              borderWidth: 1,
-              borderRadius: 10,
-              borderColor: "#C4C4C4",
-              flexDirection: "row",
-              alignItems: "center"
-            }}>
-            <View
-              style={{
-                width: "90%"
-              }}>
-              <TextInput
-                style={textStyles.input}
-                placeholder="Enter"
-                value={value}
-                onChangeText={text => setValue(text)}
-                placeholderTextColor="#ddd"
-              />
-            </View>
-            <Image source={require("./assets/search.png")} />
-          </View>
-        </View>
-        <View></View>
-        <View style={styles.frequently}>
-          <Text style={styles.frequentlyText}>Send Invite</Text>
-        </View>
-        <View>
-          <Follower name="Cody Fisher" bgcolor="#D9DADD" invite={true} />
-          <Follower name="Johnny watson" bgcolor="#FCF1D6" invite={true} />
-          <Follower name="Jenny Wilson" bgcolor="#F9D8D9" invite={true} />
-        </View>
-        <View style={styles.frequently}>
-          <Text style={styles.frequentlyText}>More</Text>
-        </View>
-        <View>
-          <Follower name="Anthony" bgcolor="#D9DADD" />
-          <Follower name="Andres" bgcolor="#F9D8D9" />
-          <Follower name="Ander" bgcolor="#FCF1D6" />
-        </View>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <ImageBackground
+        style={styles.thumbnail}
+        source={require("./assets/thumbnail.png")}>
+        <Image
+          source={require("./assets/playButtonIcon.png")}
+          style={styles.playButton}
+        />
+      </ImageBackground>
+      <Image
+        source={require("./assets/sliderIcon.png")}
+        style={styles.sliderIcon}
+      />
+      <Button buttonText="Proceed" style={styles.button} />
+      <Button
+        buttonText="Skip"
+        style={styles.button}
+        color="white"
+        textColor="#000"
+        hideShadow={true}>
+        <Image
+          source={require("./assets/rightArrowIcon.png")}
+          style={styles.arrowIcon}
+        />
+      </Button>
+    </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    paddingHorizontal: 20
   },
-  searchBar: {
-    padding: 20
+  thumbnail: {
+    width: 330,
+    height: 440,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    marginVertical: 20,
+    borderRadius: 10,
+    overflow: "hidden"
   },
-  searchText: {
-    marginLeft: 10,
-    marginBottom: 10
+  playButton: {
+    width: 60,
+    height: 60
   },
-  text: {
-    marginLeft: 30,
-    marginBottom: 10
+  sliderIcon: {
+    width: 40,
+    height: 10,
+    alignSelf: "center"
   },
-  frequently: {
-    height: 50,
-    width: "100%",
-    backgroundColor: "#DADADA",
-    flexDirection: "column",
-    justifyContent: "center"
+  button: {
+    marginVertical: 20,
+    marginHorizontal: 20
   },
-  frequentlyText: {
-    marginLeft: 30,
-    color: "#8F8D86"
+  arrowIcon: {
+    width: 10,
+    height: 10,
+    resizeMode: "contain",
+    marginLeft: 10
   }
 });
-export default InviteFriendsScreen;
 
-const Follower = props => {
+export default InAppTutorial;
+const Button = params => {
+  const backgroundColor = params.color || "#000";
+  const textColor = params.textColor || "#fff";
+  const btnStyle = {
+    backgroundColor: backgroundColor,
+    borderColor: params.outlineColor || backgroundColor,
+    borderWidth: 1
+  };
+  const btnText = {
+    color: textColor
+  };
   return (
-    <View style={FollowerStyles.follower}>
-      <View style={FollowerStyles.main}>
-        <View
-          style={[
-            FollowerStyles.image,
-            {
-              backgroundColor: props.bgcolor
-            }
-          ]}>
-          <Image source={require("./assets/edit.png")} />
-        </View>
-        <Text>{props.name}</Text>
+    <View style={[buttonStyles.btnContainer, params.style]}>
+      <View style={!params.hideShadow ? buttonStyles.shadowContainer : null}>
+        <Pressable
+          style={[buttonStyles.btn, btnStyle]}
+          onPress={params.onPress}>
+          <Text style={[buttonStyles.btnText, btnText]}>
+            {params.buttonText}
+          </Text>
+          <View style={styles.childrenContainer}>{params.children}</View>
+        </Pressable>
       </View>
-      {props.invite && <Text>Invite</Text>}
     </View>
   );
 };
 
-const FollowerStyles = StyleSheet.create({
-  follower: {
-    marginHorizontal: 20,
-    borderBottomWidth: 0.5,
-    borderBottomColor: "rgba(0,0,0,0.5)",
-    flexDirection: "row",
+const buttonStyles = StyleSheet.create({
+  btnContainer: {
+    justifyContent: "center"
+  },
+  shadowContainer: {
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+    elevation: 10,
+    backgroundColor: "#fff",
+    borderRadius: 10
+  },
+  btn: {
+    height: 50,
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10,
-    justifyContent: "space-between"
+
+    flexDirection: "row"
   },
-  main: {
-    flexDirection: "row",
-    alignItems: "center"
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
   },
-  image: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
-    marginRight: 15,
-    flexDirection: "row",
+  childrenContainer: {
     justifyContent: "center",
     alignItems: "center"
-  }
-});
-const textStyles = StyleSheet.create({
-  input: {
-    backgroundColor: "#fff",
-    height: 53,
-    color: "#000",
-    borderRadius: 10,
-    fontSize: 14,
-    paddingHorizontal: 10
-  },
-  error: {
-    fontSize: 13,
-    color: "#FA060D",
-    paddingTop: 8
   }
 });
