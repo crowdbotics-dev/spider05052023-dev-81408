@@ -1,244 +1,259 @@
-import React from "react";
-import { Text, Image, StyleSheet, View, TouchableHighlight, ScrollView, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  TextInput,
+  FlatList
+} from "react-native";
 
-const BillingScreen = () => {
+const BillingPreferencesScreen = (params) => {
+  const [billingAddress, setBillingAddress] = useState("");
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [todayHistory, setTodayHistory] = useState([]);
+  useEffect(() => {
+    setTodayHistory([
+      {
+        id: 1,
+        title: "Sports Center",
+        price: "$125.90"
+      },
+      {
+        id: 2,
+        title: "Shopping",
+        price: "$552.68"
+      },
+      {
+        id: 3,
+        title: "Income",
+        price: "$345.00"
+      }
+    ]);
+  }, []);
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.headerCard}>
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTextOne}>Order</Text>
-            <Text style={styles.cardTextOne}>30.75$</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.header}>
+          <View style={styles.paletteContainer}>
+            <View style={styles.unSelected}>
+              <Text>Linked Cards</Text>
+            </View>
+            <View style={styles.selected}>
+              <Text>Add Card</Text>
+            </View>
           </View>
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTextOne}>Delivery</Text>
-            <Text style={styles.cardTextOne}>1.25$</Text>
+          <Image
+            source={require("./assets/card.png")}
+            style={styles.cardIcon}
+          />
+        </View>
+        <View style={styles.cardInfo}>
+          <Image
+            source={require("./assets/Card-large.png")}
+            style={styles.card}
+          />
+          <Image
+            source={require("./assets/3Dots.png")}
+            style={styles.threeDots}
+          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Billing Address</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setBillingAddress(text)}
+              value={billingAddress}
+              placeholder="Enter your Billing Address"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
           </View>
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTextTwo}>Summary</Text>
-            <Text style={styles.cardTextTwo}>32.00$</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Shipping Address</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setShippingAddress(text)}
+              value={shippingAddress}
+              placeholder="Enter your Shipping Address"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
           </View>
         </View>
-        <View style={styles.deliveryDetailsContainer}>
-          <Text style={styles.deliveryDetails}>Delivery details</Text>
-          <Text style={styles.label}>
-            Address
-          </Text>
-          <View style={styles.inputIcon}>
-            <Input value="Maple Ave, Los Angeles" style={styles.inputStyle} placeholder='Enter'/>
-            <Image style={styles.icon} source={require("./assets/check.png")}/>
+        <View style={styles.history}>
+          <View style={styles.paletteContainer}>
+            <View style={styles.selected}>
+              <Text>Purchase History</Text>
+            </View>
+            <View style={styles.unSelected}>
+              <Text>Order Status</Text>
+            </View>
+          </View>
+          <View style={styles.historyList}>
+            <Text style={styles.historyDate}>TODAY&apos;s</Text>
+            <FlatList
+              data={todayHistory}
+              renderItem={({ item }) => <HistoryItem transaction={item} />}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
+          <View style={styles.historyList}>
+            <Text style={styles.historyDate}>APRIL 01</Text>
+            <FlatList
+              data={todayHistory}
+              renderItem={({ item }) => <HistoryItem transaction={item} />}
+              keyExtractor={(item) => item.id}
+            />
           </View>
         </View>
-        <OrderCard />
-        <OrderCard />
-        <OrderCard />
-        <View style={styles.btnContainer}>
-          <Button>
-            Proceed
-          </Button>
-        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const HistoryItem = ({ transaction }) => {
+  return (
+    <View style={styles.historyItem}>
+      <View style={styles.description}>
+        <Text style={styles.titleText}>{transaction.title}</Text>
+        <Text
+          style={{
+            color: "grey"
+          }}
+        >
+          Invoice
+        </Text>
       </View>
-    </ScrollView>
+      <View style={styles.pricing}>
+        <Text style={styles.pricingText}>{transaction.price}</Text>
+        <Image source={require("./assets/download.png")} />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     flex: 1,
-    backgroundColor: "#FFF"
+    backgroundColor: "#fff"
   },
-  headerCard: {
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    marginVertical: 10,
-    backgroundColor: "#FFF",
-    shadowColor: "rgba(0, 0, 0, 0.4)",
-    elevation: 15,
-    borderRadius: 8
-  },
-  cardContent: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 3
-  },
-  cardTextOne: {
-    fontSize: 13,
-    color: "#424347"
-  },
-  cardTextTwo: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#424347"
-  },
-  deliveryDetailsContainer: {
-    marginBottom: 20
-  },
-  deliveryDetails: {
+  header: {
     padding: 20,
-    fontWeight: "bold",
-    fontSize: 14,
-    color: "#1E2022"
-  },
-  label: {
-    fontSize: 14,
-    paddingLeft: 20,
-    paddingBottom: 10
-  },
-  inputIcon: {
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    borderWidth: 0.5,
-    borderColor: "#C4C4C4",
-    borderRadius: 10
+    alignItems: "center"
   },
-  inputStyle: {
-    flex: 1,
-    borderWidth: 0
+  cardIcon: {
+    width: 30,
+    height: 20,
+    marginLeft: 20,
+    resizeMode: "contain"
   },
-
-  icon: {
-    height: 18,
-    width: 18,
-    marginRight: 10
-  },
-  btnContainer: {
-    marginVertical: 20,
-    paddingHorizontal: "10%"
-  }
-});
-
-export default BillingScreen;
-
-const OrderCard = () => {
-  return (
-    <View style={orderStyles.container}>
-      <View style={orderStyles.order}>
-        <View style={orderStyles.image}>
-          <Image source={require("./assets/edit.png")} />
-        </View>
-        <View style={orderStyles.description}>
-          <Text style={orderStyles.orderName}>Order name</Text>
-          <Text style={orderStyles.quantity}>Quantity: 1</Text>
-          <Text style={orderStyles.inStock}>In stock</Text>
-        </View>
-      </View>
-      <View>
-        <Text style={orderStyles.orderPrice}>$10.25</Text>
-      </View>
-    </View>
-  );
-};
-
-const orderStyles = StyleSheet.create({
-  container: {
+  paletteContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 12,
-    marginVertical: 10,
-    backgroundColor: "#FFF",
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    elevation: 15,
-    borderRadius: 10
-  },
-  fontWeightBold: {
-    fontWeight: "bold"
-  },
-  order: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 5
-  },
-  image: {
+    backgroundColor: "#F1F1F1",
+    // height: 60,
+    // width: 250,
+    // width: '70%',
     height: 60,
-    width: 60,
-    borderRadius: 30,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10
-  },
-  description: {
-    flexDirection: "column",
-    justifyContent: "space-between"
-  },
-  orderName: {
-    fontSize: 15,
-    fontWeight: "bold"
-  },
-  quantity: {
-    fontSize: 13,
-    color: "#3E3E3E"
-  },
-  inStock: {
-    fontSize: 13,
-    color: "#12D790"
-  },
-  orderPrice: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginRight: 10
-  }
-});
-
-const Button = (props) => {
-  return (
-    <TouchableHighlight onPress={props.onPress} underlayColor='#DDDDDD'>
-      <View style={[btnStyles.button, {
-        backgroundColor: props.backgroundColor ? props.backgroundColor : "#000000",
-        height: props.height ? props.height : 49,
-        borderWidth: props.borderWidth ? props.borderWidth : 0,
-        borderColor: props.borderColor ? props.borderColor : "#000000"
-      }]}>
-        <Text style={[btnStyles.text, { color: props.color ? props.color : "#ffffff" }]}>{props.children}</Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-const btnStyles = StyleSheet.create({
-  button: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10
-  },
-  text: {
-    fontWeight: "bold",
-    fontSize: 15
-  }
-});
-
-const Input = (props) => {
-  return (
-    <View>
-      <TextInput
-        style={inputStyles.input}
-        placeholder={props.placeholder}
-        value={props.value}
-        onChangeText={props.setValue}
-        placeholderTextColor='#ddd'
-      />
-      {props.errorText ? <Text style={inputStyles.error}>{props.errorText}</Text> : null}
-    </View>
-  );
-};
-const inputStyles = StyleSheet.create({
-  input: {
-    backgroundColor: "#fff",
-    height: 49,
-    color: "#000",
     borderRadius: 10,
-    fontSize: 14,
+    alignItems: "center",
+    justifyContent: "space-around",
     paddingHorizontal: 15
   },
-  error: {
-    fontSize: 13,
-    color: "#FA060D",
-    paddingTop: 8
+  selected: {
+    backgroundColor: "#fff",
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#e6e6e6"
+  },
+  unSelected: {
+    padding: 10,
+    paddingHorizontal: 25
+  },
+  cardInfo: {
+    padding: 20
+  },
+  card: {
+    alignSelf: "center"
+  },
+  threeDots: {
+    alignSelf: "center",
+    marginVertical: 10
+  },
+  inputContainer: {
+    flexDirection: "column",
+    flex: 1,
+    justifyContent: "center",
+    marginHorizontal: 5
+  },
+  inputText: {
+    fontSize: 16,
+    marginLeft: 20,
+    color: "#111112"
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e6e6e6",
+    borderRadius: 10,
+    padding: 10,
+    paddingLeft: 20,
+    marginVertical: 10,
+    width: "100%"
+  },
+  history: {
+    paddingHorizontal: 20
+  },
+  historyDate: {
+    fontSize: 16,
+    marginVertical: 10,
+    color: "#9B9B9B",
+    marginLeft: 20
+  },
+  historyList: {
+    marginVertical: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0,
+    borderColor: "#e6e6e6",
+    borderRadius: 10
+  },
+  historyItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+    marginHorizontal: 10,
+    borderBottomWidth: 1,
+    borderColor: "#e6e6e6",
+    height: 80
+  },
+  description: {
+    flex: 3,
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+  titleText: {
+    fontSize: 16,
+    color: "#111112"
+  },
+  pricing: {
+    marginRight: 20,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  pricingText: {
+    marginRight: 10,
+    fontSize: 16,
+    color: "#111112",
+    fontWeight: "bold"
   }
 });
+export default BillingPreferencesScreen;
