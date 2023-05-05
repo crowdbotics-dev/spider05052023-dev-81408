@@ -1,203 +1,104 @@
-import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, View, FlatList, Image } from "react-native";
+import React from "react";
+import {
+  Text,
+  View,
+  StyleSheet, Image, TouchableHighlight
+} from "react-native";
 
-const ProductListingScreen = (params) => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    setProducts([
-      {
-        id: 1,
-        name: "Product name",
-        status: true,
-        isFavorite: false,
-        image: require("./assets/productImage.png")
-      },
-      {
-        id: 2,
-        name: "Product name",
-        status: false,
-        isFavorite: true,
-        image: require("./assets/productImage2.png")
-      },
-      {
-        id: 3,
-        name: "Product name",
-        status: true,
-        isFavorite: false,
-        image: require("./assets/productImage.png")
-      },
-      {
-        id: 4,
-        name: "Product name",
-        status: false,
-        isFavorite: true,
-        image: require("./assets/productImage2.png")
-      },
-      {
-        id: 5,
-        name: "Product name",
-        status: true,
-        isFavorite: false,
-        image: require("./assets/productImage.png")
-      },
-      {
-        id: 6,
-        name: "Product name",
-        status: false,
-        isFavorite: true,
-        image: require("./assets/productImage2.png")
-      }
-    ]);
-  }, []);
+const TransactionSuccessful = () => {
   return (
     <View style={styles.container}>
-      <TabView tabTitles={["All", "Best Products"]} selected={0} />
-      <View style={styles.productsContainer}>
-        <FlatList
-          data={products}
-          numColumns={2}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <Product product={item} />}
-          columnWrapperStyle={{
-            justifyContent: "space-around"
-          }}
-          showsVerticalScrollIndicator={false}
-        />
+      <View style={styles.headerContainer}>
+      <View style={styles.header}>
+        <Image source={require("./assets/back.png")} style={styles.back} />
+        <Text style={styles.heading}>Transaction</Text>
+        <Text />
+      </View>
+        <View style={styles.description}>
+          <Text style={styles.username}>Transaction Done!</Text>
+          <Text style={styles.text}>Lorem ipsum dolor sit amet,</Text>
+          <Text style={styles.text}>consectetur adipiscing elit. Hac. </Text>
+        </View>
+      </View>
+      <Image source={require("./assets/done.png")} style={styles.touch} />
+      <View style={styles.buttonContainer}>
+        <Button>Done</Button>
       </View>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#FFF",
+    paddingBottom: 20
   },
-  productsContainer: {
-    paddingHorizontal: 20
-  }
-});
-export default ProductListingScreen;
-
-const TabView = ({ tabTitles, selected }) => {
-  return (
-    <View style={tabViewStyles.paletteContainer}>
-      {tabTitles.map((title, index) => (
-        <View
-          style={
-            index === selected
-              ? tabViewStyles.selected
-              : tabViewStyles.unSelected
-          }
-          key={index}
-        >
-          <Text>{title}</Text>
-        </View>
-      ))}
-    </View>
-  );
-};
-
-const tabViewStyles = StyleSheet.create({
-  paletteContainer: {
-    width: "70%",
-    height: 48,
-    backgroundColor: "#F1F1F1",
+  headerContainer: { backgroundColor: "#F1F1F1", paddingHorizontal: 10, paddingBottom: 15 },
+  header: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: 10,
-    padding: 6,
-    marginVertical: 10,
-    marginHorizontal: 20
+    marginHorizontal: 30,
+    marginTop: 15,
+    marginBottom: 30
   },
-  selected: {
-    borderRadius: 10,
+  back: { width: 11.25, height: 20, resizeMode: "contain", marginLeft: -15 },
+  heading: { fontSize: 16, color: "#000" },
+  description: { paddingHorizontal: 15, marginTop: 20 },
+  username: { fontSize: 22, fontWeight: "bold", color: "#2A2B2E" },
+  text: { color: "#9A9A9A", paddingRight: 70, marginTop: 5 },
+  buttonContainer: {
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
-    backgroundColor: "#fff",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "gray",
-    elevation: 10
-  },
-  unSelected: {
-    flex: 1,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F1F1F1",
-    borderRadius: 10
-  }
-});
-
-const Product = ({ product }) => {
-  const availability = {
-    color: product.status ? "#12D790" : "#EA4335",
-    fontSize: 12,
-    fontWeight: "bold"
-  };
-  return (
-    <View style={productStyles.container}>
-      <View style={productStyles.imageContainer}>
-        <Image source={product.image} style={productStyles.productImage} />
-
-        <Image
-          source={
-            product.isFavorite
-              ? require("./assets/isFavouriteIcon.png")
-              : require("./assets/favIcon.png")
-          }
-          style={productStyles.favIcon}
-        />
-      </View>
-      <View style={productStyles.descriptionContainer}>
-        <Text style={productStyles.bold}>{product.name}</Text>
-        <View style={productStyles.availabilityTextContainer}>
-          <Text style={productStyles.availabilityText}>Purchase: </Text>
-          <Text style={availability}>
-            {product.status ? "Available" : "Not available"}
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const productStyles = StyleSheet.create({
-  container: {
-    height: 240,
-    width: 160,
-    margin: 10
-  },
-  imageContainer: {
-    height: 180,
-    width: 160,
-    borderRadius: 10
-  },
-  productImage: {
-    height: "100%",
-    width: "100%",
-    borderRadius: 10
-  },
-  descriptionContainer: {
-    justifyContent: "center",
-    padding: 10
-  },
-  availabilityTextContainer: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  availabilityText: {
-    color: "#7C7C7C",
-    fontSize: 12,
-    fontWeight: "bold"
-  },
-  bold: {
-    fontWeight: "bold"
-  },
-  favIcon: {
     position: "absolute",
-    right: 10,
-    top: 10
+    bottom: 20,
+    width: "100%"
+  },
+  touch: { width: 180, height: 180, resizeMode: "contain", alignSelf: "center", marginTop: 90, marginBottom: 10 }
+
+});
+
+const Button = (props) => {
+  return (
+    <TouchableHighlight onPress={props.onPress} underlayColor="#DDDDDD">
+      <View
+        style={[
+          btnStyles.button,
+          {
+            backgroundColor: props.backgroundColor
+              ? props.backgroundColor
+              : "#000000",
+            height: props.height ? props.height : 49,
+            borderWidth: props.borderWidth ? props.borderWidth : 0,
+            borderColor: props.borderColor ? props.borderColor : "#000000"
+          }
+        ]}
+      >
+        <Text
+          style={[
+            btnStyles.text,
+            { color: props.color ? props.color : "#ffffff" }
+          ]}
+        >
+          {props.children}
+        </Text>
+      </View>
+    </TouchableHighlight>
+  );
+};
+
+const btnStyles = StyleSheet.create({
+  button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    width: 307
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 15
   }
 });
+export default TransactionSuccessful;
