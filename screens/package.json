@@ -1,5 +1,5 @@
 {
-    "name": "@screens/transaction-details",
+    "name": "@screens/billing",
     "version": "1.0.0",
     "description": "",
     "private": true,
