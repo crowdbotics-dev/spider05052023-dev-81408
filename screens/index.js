@@ -1,101 +1,104 @@
-import React from "react";
+import * as React from "react";
 import {
   Text,
   View,
-  StyleSheet, Image, TouchableHighlight
+  StyleSheet,
+  TextInput,
+  TouchableHighlight
 } from "react-native";
 
-const TransactionPending = () => {
+const pressed = () => {
+  console.log("pressed");
+};
+
+const ForgotPassword = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-      <View style={styles.header}>
-        <Image source={require("./assets/back.png")} style={styles.back} />
-        <Text style={styles.heading}>Transaction</Text>
-        <Text />
+      <View style={styles.topHead}>
+        <Text style={styles.mainHeading}>Forgot {"\n"} password</Text>
       </View>
-      <View style={styles.statusContainer}>
-        <View style={styles.description}>
-          <Text style={styles.username}>Transaction pending</Text>
-          <Text style={styles.text}>See details</Text>
-        </View>
-        <Image source={require("./assets/clock.png")} style={styles.clock} />
-      </View>
-      </View>
-      <View style={[styles.description, styles.align]}>
-          <Text style={[styles.mb5]}>Transaction ID</Text>
-          <Text style={styles.text}>Lorem ipsum dolor sit amet,</Text>
-          <Text style={styles.text}>consectetur adipiscing elit. Hac. </Text>
-        </View>
 
-        <Text style={styles.mr10}>Transaction ID</Text>
-      <View style={styles.chooseContainer}>
-        <Text style={styles.address}>0xdC4592CFBa591e4E243fA35e2e4…</Text>
-        <Image source={require("./assets/copy.png")} style={styles.nextImg} />
+      <View style={styles.inputSection}>
+        <View style={styles.newPassword}>
+          <Text style={styles.newPassword}>
+            Set new password for your account.
+          </Text>
+        </View>
+        <View style={styles.passwordInput}>
+          <Text style={styles.newPasswordLabel}>Password</Text>
+          <Input placeholder="Enter"></Input>
+        </View>
+        <View style={styles.confirmInput}>
+          <Text style={styles.newPasswordLabel}>Confirm Password</Text>
+          <Input placeholder="Enter"></Input>
+        </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button>Done</Button>
+      <View style={styles.resetButton}>
+        <Button onPress={pressed} style={styles.resetBtn}>
+          Reset password
+        </Button>
+      </View>
+      <View style={styles.back}>
+        <Text style={styles.backText}>Back</Text>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF",
-    paddingBottom: 20
-  },
-  headerContainer: { backgroundColor: "#F1F1F1", paddingHorizontal: 10, paddingBottom: 25 },
-  header: {
+  topHead: {
+    display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginHorizontal: 30,
-    marginTop: 15,
-    marginBottom: 30
-  },
-  back: { width: 11.25, height: 20, resizeMode: "contain", marginLeft: -15 },
-  heading: { fontSize: 16, color: "#000" },
-  description: { paddingHorizontal: 15, marginTop: 20 },
-  username: { fontSize: 22, fontWeight: "bold", color: "#2A2B2E" },
-  text: { color: "#9A9A9A", paddingRight: 70, marginTop: 5 },
-  align: { marginHorizontal: 10, marginBottom: 30 },
-  mb5: { fontSize: 22, fontWeight: "bold", marginBottom: 5, color: "#333333" },
-  statusContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 20
-  },
-  clock: { width: 66, height: 66, resizeMode: "contain", marginRight: 20 },
-  mr10: {
-    marginLeft: 35,
-    marginBottom: 10
-  },
-  chooseContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 55,
-    borderColor: "#C4C4C4",
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    paddingRight: 20,
-    marginHorizontal: 20,
-    marginBottom: 20
-  },
-  nextImg: { width: 16, height: 16, resizeMode: "contain" },
-  buttonContainer: {
     justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    position: "absolute",
-    bottom: 20,
-    width: "100%"
+    textAlign: "center"
   },
-  address: { color: "#2B2727" }
+  mainHeading: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  container: {
+    padding: 20,
+    backgroundColor: "#FFF",
+    height: "100%"
+  },
+  inputSection: {
+    paddingTop: 40
+  },
+  newPassword: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  passwordInput: {
+    marginTop: 50
+  },
+  newPasswordLabel: {
+    paddingLeft: 15,
+    paddingBottom: 7
+  },
+  confirmInput: {
+    paddingTop: 10
+  },
+  resetButton: {
+    paddingTop: 20,
+    paddingLeft: 30,
+    paddingRight: 30
+  },
+  back: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 30
+  },
+  backText: {
+    fontWeight: "600",
+    fontSize: 20
+  }
 });
+
+export default ForgotPassword;
 
 const Button = (props) => {
   return (
@@ -131,8 +134,7 @@ const btnStyles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
-    width: 307
+    borderRadius: 10
   },
   text: {
     fontWeight: "bold",
@@ -140,4 +142,40 @@ const btnStyles = StyleSheet.create({
   }
 });
 
-export default TransactionPending;
+const Input = (props) => {
+  return (
+    <View>
+      <TextInput
+        style={inputStyles.input}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChangeText={(num) => props.setValue(num)}
+        placeholderTextColor="#ddd"
+        editable={props.editable !== false}
+      />
+      {props.errorText
+        ? (
+        <Text style={inputStyles.error}>{props.errorText}</Text>
+          )
+        : null}
+    </View>
+  );
+};
+
+const inputStyles = StyleSheet.create({
+  input: {
+    backgroundColor: "#fff",
+    height: 53,
+    borderColor: "#C4C4C4",
+    color: "#000",
+    borderRadius: 10,
+    fontSize: 14,
+    borderWidth: 1,
+    paddingHorizontal: 15
+  },
+  error: {
+    fontSize: 13,
+    color: "#FA060D",
+    paddingTop: 8
+  }
+});
